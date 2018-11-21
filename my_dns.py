@@ -6,14 +6,15 @@ import sys
 
 ZONE_FILE_FOLDER = "ZONES"
 BUFFER_SIZE = 1024
+dnsSerIP = "0.0.0.0"
 dnsSerPort = 53
-if len(sys.argv) != 2:
+if len(sys.argv) != 3:
 	# print(sys.argv)
-	print("Usage: python3 this.py port_num")
-	print("Will use the deafule setting with port number 53")
-
+	print("Usage: python3 this.py ip_address port_num")
 else:
-	dnsSerPort = int(sys.argv[1])
+	dnsSerIP = sys.argv[1]
+	dnsSerPort = int(sys.argv[2])
+print("Will use the deafule setting with port number %d and ip address %s" % (dnsSerPort, dnsSerIP))
 
 JSON_ZONE = {}
 zone_files = glob.glob(ZONE_FILE_FOLDER+'/*.json')
@@ -244,7 +245,7 @@ def build_response(data):
 	
 
 with socket(AF_INET, SOCK_DGRAM) as dnsSerSock:
-	dnsSerSock.bind(('', dnsSerPort))
+	dnsSerSock.bind((dnsSerIP, dnsSerPort))
 	while True:
 		print("Ready to serve.")
 		data, addr = dnsSerSock.recvfrom(BUFFER_SIZE)
