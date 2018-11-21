@@ -70,4 +70,5 @@ The file server can only handle html files as downloading attachments for now; t
 ```
  python3 my_webs.py 127.0.0.1 8080
  # To test it, simply open a browser to access http://127.0.0.1:8080/test.html; a file named "test.html" would then be downloaded.
+ # In sum, following all the examples in the my_dns.py and my_webs.py above, if you set your DNS server as 127.0.0.1#5300(I would recommand you to leave the port number as 53 though since most OS does not support a custom DNS port number), you should be able to download the test file with URL http://www.xie.432/test.html.
 ```
