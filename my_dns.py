@@ -14,7 +14,7 @@ if len(sys.argv) != 3:
 else:
 	dnsSerIP = sys.argv[1]
 	dnsSerPort = int(sys.argv[2])
-print("Will use the deafule setting with port number %d and ip address %s" % (dnsSerPort, dnsSerIP))
+print("Will use the deafult setting with port number %d and ip address %s" % (dnsSerPort, dnsSerIP))
 
 JSON_ZONE = {}
 zone_files = glob.glob(ZONE_FILE_FOLDER+'/*.json')
@@ -31,7 +31,6 @@ def get_zone(zone):
 	if akey in JSON_ZONE:
 		return JSON_ZONE[akey]
 	return None
-print(get_zone("MYDOMAIN.COM"))
 
 def binstr2byte(binstr):
 	return int(binstr, 2).to_bytes(1, byteorder='big')
@@ -242,7 +241,6 @@ def build_response(data):
 	
 	return res_Header+res_Question+res_Answer
 
-	
 
 with socket(AF_INET, SOCK_DGRAM) as dnsSerSock:
 	dnsSerSock.bind((dnsSerIP, dnsSerPort))

@@ -44,33 +44,35 @@ with socket(AF_INET, SOCK_STREAM) as tcpSerSock:
 		tmp_match = http_request_rule_for_normal_GET.match(message)
 		if tmp_match:
 			requested_item = tmp_match.group('GET')
-		
 		print(requested_item)
-		try:
-			buffer_lines = None
-			with open(FILE_FOLDER+requested_item, "r") as f:
-				buffer_lines = f.readlines()
-			response_header = b"HTTP/1.1 200 OK\r\n"
-			response_header += b"Content-Type: text/html\r\n"
-			response_header += b"Content-Disposition: attachment\r\n"
-			response_header += ("Content-Length: %d\r\n" % os.path.getsize(FILE_FOLDER+requested_item)).encode()
-			response_header += b"\n\n"
-			print(response_header)
+		if requested_item != '':
+			try:
+				buffer_lines = None
+				with open(FILE_FOLDER+requested_item, "r") as f:
+					buffer_lines = f.readlines()
+				response_header = b"HTTP/1.1 200 OK\r\n"
+				response_header += b"Content-Type: text/html\r\n"
+				response_header += b"Content-Disposition: attachment\r\n"
+				response_header += ("Content-Length: %d\r\n" % os.path.getsize(FILE_FOLDER+requested_item)).encode()
+				response_header += b"\n\n"
+				print(response_header)
 
-			response_body = b""
-			for line in buffer_lines:
-				print(line)
-				response_body += (line.encode())
-			response_body += b"\n\n"
-			tcpCLISock.sendall(response_header+response_body)
-		except FileNotFoundError as e:
-			print("No such file")
-			tcpCLISock.sendall(b"HTTP/1.1 404 Not Found\n\n")
+				response_body = b""
+				for line in buffer_lines:
+					print(line)
+					response_body += (line.encode())
+				response_body += b"\n\n"
+				tcpCLISock.sendall(response_header+response_body)
+			except FileNotFoundError as e:
+				print("No such file")
+				tcpCLISock.sendall(b"HTTP/1.1 404 Not Found\n\n")
 
-		except Exception as e:
-			print(e)
-			tcpCLISock.sendall(b"HTTP/1.1 404 Not Found\n\n")
-		finally:
+			except Exception as e:
+				print(e)
+				tcpCLISock.sendall(b"HTTP/1.1 404 Not Found\n\n")
+			finally:
+				tcpCLISock.close()
+		else:
 			tcpCLISock.close()
 
 
