@@ -68,5 +68,6 @@ The file server can only handle html files as downloading attachments for now; t
 ### Usage: python3 my_webs.py [server\_ip\_address] [server\_listening\_port_number]
 #### Example
 ```
-
+ python3 my_webs.py 127.0.0.1 8080
+ # To test it, simply open a browser to access http://127.0.0.1:8080/test.html; a file named "test.html" would then be downloaded.
 ```
